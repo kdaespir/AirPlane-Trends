@@ -27,3 +27,4 @@ def get_stats(df):
     return all_data
 
 data = pd.read_csv(r"D:\Users\Owner\Desktop\Python Projects\AirPlane Trends\flights.csv")
+print(data["Fly Date"]["199011"])
