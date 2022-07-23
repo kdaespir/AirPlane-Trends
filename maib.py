@@ -25,5 +25,5 @@ def get_stats(df):
     all_data.columns = ["Mean", "Std dev", "Variance", "P0", "P25", "P50", "P75", "P100"]
     all_data.index = df.columns[6:]
     return all_data
-
+#
 data = pd.read_csv(r"D:\Users\Owner\Desktop\Python Projects\AirPlane Trends\flights.csv")
