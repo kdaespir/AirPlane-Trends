@@ -12,6 +12,7 @@ def get_stats(df):
     sd = []
     var = []
     p0, p25, p50, p75, p100 = [], [], [], [], []
+    counts = []
 
     for item in numeric_data:
         means += [np.mean(df[item])]
@@ -22,6 +23,7 @@ def get_stats(df):
         p75 += [np.quantile(df[item], .75)]
         p100 += [np.quantile(df[item], 1)]
         var += [np.var(df[item])]
+        # counts += 
         pass
     all_data = list(zip(means, sd, var, p0, p25, p50, p75, p100))
     all_data = pd.DataFrame(all_data)
@@ -30,24 +32,26 @@ def get_stats(df):
     return all_data
 
 def by_dates(df):
-    dates = df["Fly Date"].unique()
-    flight_counts = []
-    dist_traveled = []
-    for item in dates:
-        flight_counts += [df.loc[df["Fly Date"] == item].shape[0]] 
+    '''
+    Allows the user to specify a date. once specified function returns a dataframe with just information from that date
 
-        dist_traveled = df.loc[df["Fly Date"] == item]["Distance"]
-        print(len(dist_traveled), len(flight_counts))
+    Note: add Ranges of dates. Example: 199006 to 200006. format will be (df.loc[(df["Fly Date"] >= lower_target) & (df["Fly Date"] <= upper_target)])
+    '''
+    dates = df["Fly Date"].unique()
+    target = int(float(input("Please Enter A Date. Format = YYYYMM: ")))
+
+    while target not in dates:
+        print("Invalid Date Entered")
+        target = int(float(input("Please Enter A Date. Format = YYYYMM: ")))
         
-    # test = df.loc[]
-    return flight_counts
+    df = df.loc[df["Fly Date"] == target]
+    return df
 
 def main():
 # Loads the dataset into the variable data
     data = pd.read_csv(r"D:\Users\Owner\Desktop\Python Projects\AirPlane Trends\flights.csv")
     numeric_data = data[data.columns[6:]]
-    print(numeric_data)
+    x = by_dates(numeric_data)
+    print(x)
 
 main()
-# x = by_dates(data)
-# print(x)
