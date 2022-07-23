@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-
+data = pd.read_csv(r"D:\Users\Owner\Desktop\Python Projects\AirPlane Trends\flights.csv")
 def get_stats(df):
     x = df[df.columns[6:]]
     numeric_data = df.columns[6:]
@@ -26,5 +26,13 @@ def get_stats(df):
     all_data.index = df.columns[6:]
     return all_data
 
-data = pd.read_csv(r"D:\Users\Owner\Desktop\Python Projects\AirPlane Trends\flights.csv")
-print(data["Fly Date"]["199011"])
+def by_dates(df):
+    dates = df["Fly Date"].unique()
+    flight_counts = []
+    for item in dates:
+        flight_counts += [df.loc[df["Fly Date"] == item].shape[0]]
+    # test = df.loc[]
+    return flight_counts
+
+x = by_dates(data)
+print(x)
