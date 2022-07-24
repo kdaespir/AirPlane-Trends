@@ -31,27 +31,41 @@ def get_stats(df):
     all_data.index = df.columns
     return all_data
 
-def by_dates(df):
+def by_dates(df, date_type="single"):
     '''
-    Allows the user to specify a date. once specified function returns a dataframe with just information from that date
+    Allows the user to specify a date or range of dates. once specified function returns a dataframe with just information from that date
 
-    Note: add Ranges of dates. Example: 199006 to 200006. format will be (df.loc[(df["Fly Date"] >= lower_target) & (df["Fly Date"] <= upper_target)])
     '''
     dates = df["Fly Date"].unique()
-    target = int(float(input("Please Enter A Date. Format = YYYYMM: ")))
-
-    while target not in dates:
-        print("Invalid Date Entered")
+    if date_type == "single":
         target = int(float(input("Please Enter A Date. Format = YYYYMM: ")))
+
+        while target not in dates:
+            print("Invalid Date Entered")
+            target = int(float(input("Please Enter A Date. Format = YYYYMM: ")))
+
+        df = df.loc[df["Fly Date"] == target]
+    elif date_type == "range":
+
+        lower_bound = int(float(input("Please Enter The Lower Bound Date. Format = YYYYMM: ")))
+        upper_bound = int(float(input("Please Enter The Upper Bound Date. Format = YYYYMM: ")))
+
+        while lower_bound not in dates:
+            print("Invalid Date Entered")
         
-    df = df.loc[df["Fly Date"] == target]
+        while upper_bound not in dates:
+            print("Invalid Date Entered")
+        
+        df = df.loc[(df["Fly Date"] >= lower_bound) & (df["Fly Date"] <= upper_bound)]
+
     return df
 
 def main():
 # Loads the dataset into the variable data
     data = pd.read_csv(r"D:\Users\Owner\Desktop\Python Projects\AirPlane Trends\flights.csv")
     numeric_data = data[data.columns[6:]]
-    x = by_dates(numeric_data)
+    x = by_dates(numeric_data, date_type="range")
+    x = get_stats(x)
     print(x)
 
 main()
