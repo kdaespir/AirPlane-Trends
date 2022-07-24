@@ -57,6 +57,7 @@ def by_dates(df, date_type="single"):
             print("Invalid Date Entered")
         
         df = df.loc[(df["Fly Date"] >= lower_bound) & (df["Fly Date"] <= upper_bound)]
+        df.columns = ["Mean", "Std dev", "Variance", "P0", "P25", "P50", "P75", "P100"]
 
     return df
 
